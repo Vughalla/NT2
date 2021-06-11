@@ -1,0 +1,125 @@
+
+<section class="src-componentes-formulario">
+    <div class="jumbotron">
+      <h1>Notas</h1>
+      <hr>
+
+      <vue-form :state="formState" @submit.prevent="enviar()">
+
+        <!-- campo nombre -->
+        <validate tag="div">
+          <label for="nombre">Nombre</label>
+          <input 
+            type="text" 
+            id="nombre" 
+            name="nombre" 
+            class="form-control"
+            autocomplete="off"
+            v-model.trim="formData.nombre"
+            required
+            :minlength="nomApeLengthMin"
+            :maxlength="nomApeLengthMax"
+            no-espacios
+          >
+          <!-- mensajes de validación -->
+          <field-messages name="nombre" show="$dirty">
+            <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>            
+            <div slot="no-espacios" class="alert alert-danger mt-1">
+              Ingrese sólo el primer nombre.
+            </div>            
+            <div slot="minlength" class="alert alert-danger mt-1">
+              Ingrese al menos {{ nomApeLengthMin }} caracteres.
+            </div>            
+            <div v-if="formData.nombre.length == nomApeLengthMax" class="alert alert-warning mt-1">
+              Lo sentimos. No puede ingresar más de {{ nomApeLengthMax }} caracteres.
+            </div>            
+          </field-messages>
+
+        </validate>
+        <br>
+
+        <!-- campo apellido -->
+        <validate tag="div">
+          <label for="apellido">Apellido</label>
+          <input 
+            type="text" 
+            id="apellido" 
+            name="apellido" 
+            class="form-control"
+            autocomplete="off"
+            v-model.trim="formData.apellido"
+            required
+            :minlength="nomApeLengthMin"
+            :maxlength="nomApeLengthMax"
+            no-espacios
+          >
+          <!-- mensajes de validación -->
+          <field-messages name="apellido" show="$dirty">
+            <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>            
+            <div slot="no-espacios" class="alert alert-danger mt-1">
+              Ingrese sólo el primer apellido.
+            </div>            
+            <div slot="minlength" class="alert alert-danger mt-1">
+              Ingrese al menos {{ nomApeLengthMin }} caracteres.
+            </div>            
+            <div v-if="formData.apellido.length == nomApeLengthMax" class="alert alert-warning mt-1">
+              Lo sentimos. No puede ingresar más de {{ nomApeLengthMax }} caracteres.
+            </div>            
+          </field-messages>
+
+        </validate>
+        <br>
+
+
+        <!-- campo nota -->
+        <validate tag="div">
+          <label for="nota">Nota</label>
+          <input 
+            type="number" 
+            id="nota" 
+            name="nota" 
+            class="form-control"
+            autocomplete="off"
+            v-model.number="formData.nota"
+            required
+            :min="notaMin"
+            :max="notaMax"
+          >
+          <!-- mensajes de validación -->
+          <field-messages name="nota" show="$dirty">
+            <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>            
+            <div slot="min" class="alert alert-danger mt-1">La nota mínima es de {{notaMin}} años</div>            
+            <div slot="max" class="alert alert-danger mt-1">La nota máxima permitida es de {{notaMax}} años</div>            
+          </field-messages>
+
+        </validate>
+        <br>
+
+        <button class="btn btn-success my-3" :disabled="formState.$invalid" @click="enviarNota()">Enviar</button>
+
+      </vue-form>
+
+      <hr>
+    
+      <div class="table-responsive">
+          <table class="table">
+              <tr class="bg-success text-light bg-dark">
+                  <th><b>Alumno</b></th>
+                  <th><b>Nota</b></th>
+              </tr>
+              <tr v-for="(alumno,index) in alumnos" :key="index" class="bg-dark text-light">
+                <td>{{alumno.nombre}} {{alumno.apellido}}</td>
+                <td :style="{color: getColor(alumno.nota)}">{{alumno.nota}}</td>
+              </tr>
+                  
+              <tr v-if="alumnos.length > 0" class="bg-success text-light bg-dark">
+                    <th><b>PROMEDIO</b></th>
+                    <th :style="{color: getColor(this.promedio)}"><b>{{promedio}}</b></th>
+              </tr>
+          </table>
+      </div>
+
+    </div>
+  </div>
+</section>
+

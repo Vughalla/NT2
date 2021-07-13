@@ -2,7 +2,7 @@
   <div>
     <h1>FINAL - Belascuain Emmanuel P.</h1>
     <input type="text" v-model="mensaje">
-    <h3>Cantidad: {{ mensaje.length }}</h3>
+    <h3>Cantidad: {{ cantidad }}</h3>
     <h3>Codificado: {{ mensaje | codificar }}</h3>
     <h3>Mayúscula: {{ mensaje | mayus }}</h3>
     <h3>Minúscula: {{ mensaje | minus }}</h3>
@@ -69,6 +69,11 @@ export default {
         }
       }
       return minusMayus.join("")
+    }
+  },
+  computed : {
+    cantidad() { 
+      return this.mensaje.length
     }
   }
 }
